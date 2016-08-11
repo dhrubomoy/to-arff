@@ -5,13 +5,14 @@ module ToARFF
 
 	class SQLiteDB
 
-		attr_accessor :db_file_path, :db, :tables
+		attr_accessor :db_file_path, :db, :tables, :columns, :column_type
 
-		def initialize(path)
+		def initialize(path, options={})
 			@db_file_path = path
+			@tables = options.fetch(:tables, Array.new)
+			@columns = options.fetch(:columns, Hash.new)
+			@column_type = options.fetch(:columns, Hash.new)
 			process_db_file
-			@tables = Array.new
-			@colums = Hash.new
 		end
 
 		def process_db_file
@@ -31,13 +32,12 @@ module ToARFF
 		end
 
 		# Get all the tables' name and store them in an array (@tables).
-		def get_all_tables
+		def set_all_tables
 			begin
 				tables_arr = @db.execute("SELECT name FROM sqlite_master WHERE type='table';")
 				tables_arr.each do |elem|
 					@tables.push(elem.first)
 				end
-				@tables
 			rescue SQLite3::Exception => e 
 				puts "#{e}"
 			end
@@ -57,6 +57,15 @@ module ToARFF
 			end
 		end
 
+		def set_all_columns
+			if @tables.length == 0
+				set_all_tables
+			end
+			@tables.each do |t|
+				@columns[t] = get_columns(t)
+			end
+		end
+
 		# If the column type is nominal return true.
 		def is_numeric(table_name, column_name)
 			begin
@@ -70,7 +79,7 @@ module ToARFF
 			end
 		end
 
-		def convert_table_to_arff(table_name)
+		def convert_table(table_name)
 			puts "@RELATION #{table_name}\n\n"
 			get_columns(table_name).each do |col|
 				if is_numeric(table_name, col)
@@ -88,9 +97,9 @@ module ToARFF
 	    puts "\n\n"
 		end
 
-		def convert_all_tables_to_arff#(output_file_path)
+		def convert_all#(output_file_path)
 			@tables.each do |t|
-				convert_table_to_arff(t)
+				convert_table(t)
 			end
 		end
 
