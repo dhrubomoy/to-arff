@@ -89,31 +89,32 @@ module ToARFF
 
 		# Converts a table to ARFF.
 		def convert_table(table_name)
-			rel = "#{RELATION_MARKER} #{table_name}\n\n"
-			get_columns(table_name).each do |col|
-				if is_numeric(table_name, col)
-					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
-				else
-					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
-				end
-			end
-			rel << "\n#{DATA_MARKER}\n"
+			# rel = "#{RELATION_MARKER} #{table_name}\n\n"
+			# get_columns(table_name).each do |col|
+			# 	if is_numeric(table_name, col)
+			# 		rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
+			# 	else
+			# 		rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
+			# 	end
+			# end
+			# rel << "\n#{DATA_MARKER}\n"
 
-			data = @db.prepare "SELECT * FROM #{table_name}" 
-			data.each do |elem|
-				row = ""
-				elem.each do |val|
-					if val.is_a? Numeric
-						row = row + "#{val}" + ","
-					else
-						row = row + "\"#{val}\"" + ","
-					end
-				end
-				rel << row.strip.chomp(",")
-				rel << "\n"
-			end
-			rel << "\n\n\n"
-	    rel
+			# data = @db.prepare "SELECT * FROM #{table_name}" 
+			# data.each do |elem|
+			# 	row = ""
+			# 	elem.each do |val|
+			# 		if val.is_a? Numeric
+			# 			row = row + "#{val}" + ","
+			# 		else
+			# 			row = row + "\"#{val}\"" + ","
+			# 		end
+			# 	end
+			# 	rel << row.strip.chomp(",")
+			# 	rel << "\n"
+			# end
+			# rel << "\n\n\n"
+	  #   rel
+	  	convert_table_with_columns(table_name, get_columns(table_name))
 		end
 
 		def convert_table_with_columns(table_name, columns)
@@ -148,10 +149,12 @@ module ToARFF
 	    rel
 		end
 
-		def convert_from_columns_hash(cols)
-			cols.keys.each do |table|
-				convert_table_with_columns(table, cols[table])
+		def convert_from_columns_hash(cols_hash)
+			rel = ""
+			cols_hash.keys.each do |table|
+				rel << convert_table_with_columns(table, cols_hash[table])
 			end
+			rel
 		end
 
 		def convert(options={})
@@ -180,7 +183,7 @@ module ToARFF
 						# 					 "employees"=>["EmployeeId", "LastName", "City"]
 						# 				 }
 
-						convert_from_columns_hash(temp_columns)
+						res << convert_from_columns_hash(temp_columns)
 					end
 					if !temp_column_types.empty?
 						#PENDING...
