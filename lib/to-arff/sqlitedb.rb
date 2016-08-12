@@ -59,7 +59,7 @@ module ToARFF
 		    pst.columns.each do |c|
 		    	columns_arr.push(c)
 		    end
-		  return columns_arr
+		  columns_arr
 			rescue SQLite3::Exception => e
 			  puts e
 			end
@@ -116,6 +116,44 @@ module ToARFF
 	    rel
 		end
 
+		def convert_table_with_columns(table_name, columns)
+			rel = "#{RELATION_MARKER} #{table_name}\n\n"
+			columns.each do |col|
+				if is_numeric(table_name, col)
+					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
+				else
+					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
+				end
+			end
+			columns_str = ""
+			columns.each do |col|
+				columns_str += col + ", "
+			end
+			columns_str = columns_str.chomp(", ")
+			rel << "\n#{DATA_MARKER}\n"
+			data = @db.prepare "SELECT #{columns_str} FROM #{table_name}" 
+			data.each do |elem|
+				row = ""
+				elem.each do |val|
+					if val.is_a? Numeric
+						row = row + "#{val}" + ","
+					else
+						row = row + "\"#{val}\"" + ","
+					end
+				end
+				rel << row.strip.chomp(",")
+				rel << "\n"
+			end
+			rel << "\n\n\n"
+	    rel
+		end
+
+		def convert_from_columns_hash(cols)
+			cols.keys.each do |table|
+				convert_table_with_columns(table, cols[table])
+			end
+		end
+
 		def convert(options={})
 			temp_tables = options.fetch(:tables, Array.new)
 			temp_columns = options.fetch(:columns, Hash.new)
@@ -128,14 +166,21 @@ module ToARFF
 				end
 			end
 			if options.keys.length == 1
-				if options.keys.first.to_s != "tables" || options.keys.first.to_s != "columns" || options.keys.first.to_s != "column_types"
-					raise ArgumentError.new("Wrong parameter name #{options.keys.first}")
+				if options.keys.first.to_s != "tables" && options.keys.first.to_s != "columns" && options.keys.first.to_s != "column_types"
+					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first.to_s}\"")
 				else
 					if !temp_tables.empty?
-						#PENDING...
+						temp_tables.each do |t|
+							res << convert_table(t)
+						end
 					end
 					if !temp_columns.keys.empty?
 						#PENDING...
+						# param1 = { "albums"=>["AlbumId", "Title"],
+						# 					 "employees"=>["EmployeeId", "LastName", "City"]
+						# 				 }
+
+						convert_from_columns_hash(temp_columns)
 					end
 					if !temp_column_types.empty?
 						#PENDING...

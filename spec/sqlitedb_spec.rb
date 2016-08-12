@@ -27,6 +27,7 @@ describe ToARFF::SQLiteDB do
 		@expected_tables_sdb1 = @expected_columns_sdb1.keys
 		@expected_tables_sdb2 = @expected_columns_sdb2.keys
 		@expected_arff_albums_sdb2 = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@ATTRIBUTEArtistIdNUMERIC@DATA1,\"ForThoseAboutToRockWeSaluteYou\",12,\"BallstotheWall\",23,\"RestlessandWild\",24,\"LetThereBeRock\",15,\"BigOnes\",36,\"JaggedLittlePill\",47,\"Facelift\",58,\"Warner25Anos\",69,\"PlaysMetallicaByFourCellos\",710,\"Audioslave\",8"
+		@expected_arff_albums_sdb2_w_cols = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@DATA1,\"ForThoseAboutToRockWeSaluteYou\"2,\"BallstotheWall\"3,\"RestlessandWild\"4,\"LetThereBeRock\"5,\"BigOnes\"6,\"JaggedLittlePill\"7,\"Facelift\"8,\"Warner25Anos\"9,\"PlaysMetallicaByFourCellos\"10,\"Audioslave\""
 		@expected_arff_employees_sdb2 = "@RELATIONemployees@ATTRIBUTEEmployeeIdNUMERIC@ATTRIBUTELastNameSTRING@ATTRIBUTEFirstNameSTRING@ATTRIBUTETitleSTRING@ATTRIBUTEReportsToSTRING@ATTRIBUTEBirthDateSTRING@ATTRIBUTEHireDateSTRING@ATTRIBUTEAddressSTRING@ATTRIBUTECitySTRING@ATTRIBUTEStateSTRING@ATTRIBUTECountrySTRING@ATTRIBUTEPostalCodeSTRING@ATTRIBUTEPhoneSTRING@ATTRIBUTEFaxSTRING@ATTRIBUTEEmailSTRING@DATA1,\"Adams\",\"Andrew\",\"GeneralManager\",\"\",\"1962-02-1800:00:00\",\"2002-08-1400:00:00\",\"11120JasperAveNW\",\"Edmonton\",\"AB\",\"Canada\",\"T5K2N1\",\"+1(780)428-9482\",\"+1(780)428-3457\",\"andrew@chinookcorp.com\"2,\"Edwards\",\"Nancy\",\"SalesManager\",1,\"1958-12-0800:00:00\",\"2002-05-0100:00:00\",\"8258AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P2T3\",\"+1(403)262-3443\",\"+1(403)262-3322\",\"nancy@chinookcorp.com\"3,\"Peacock\",\"Jane\",\"SalesSupportAgent\",2,\"1973-08-2900:00:00\",\"2002-04-0100:00:00\",\"11116AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5M5\",\"+1(403)262-3443\",\"+1(403)262-6712\",\"jane@chinookcorp.com\"4,\"Park\",\"Margaret\",\"SalesSupportAgent\",2,\"1947-09-1900:00:00\",\"2003-05-0300:00:00\",\"68310StreetSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5G3\",\"+1(403)263-4423\",\"+1(403)263-4289\",\"margaret@chinookcorp.com\"5,\"Johnson\",\"Steve\",\"SalesSupportAgent\",2,\"1965-03-0300:00:00\",\"2003-10-1700:00:00\",\"7727B41Ave\",\"Calgary\",\"AB\",\"Canada\",\"T3B1Y7\",\"1(780)836-9987\",\"1(780)836-9543\",\"steve@chinookcorp.com\"6,\"Mitchell\",\"Michael\",\"ITManager\",1,\"1973-07-0100:00:00\",\"2003-10-1700:00:00\",\"5827BownessRoadNW\",\"Calgary\",\"AB\",\"Canada\",\"T3B0C5\",\"+1(403)246-9887\",\"+1(403)246-9899\",\"michael@chinookcorp.com\"7,\"King\",\"Robert\",\"ITStaff\",6,\"1970-05-2900:00:00\",\"2004-01-0200:00:00\",\"590ColumbiaBoulevardWest\",\"Lethbridge\",\"AB\",\"Canada\",\"T1K5N8\",\"+1(403)456-9986\",\"+1(403)456-8485\",\"robert@chinookcorp.com\"8,\"Callahan\",\"Laura\",\"ITStaff\",6,\"1968-01-0900:00:00\",\"2004-03-0400:00:00\",\"9237STNW\",\"Lethbridge\",\"AB\",\"Canada\",\"T1H1Y8\",\"+1(403)467-3351\",\"+1(403)467-8772\",\"laura@chinookcorp.com\""
 		@expected_arff_genres_sdb1 = "@RELATIONgenres@ATTRIBUTEGenreIdNUMERIC@ATTRIBUTENameSTRING@DATA1,\"Rock\"2,\"Jazz\"3,\"Metal\"4,\"Alternative&Punk\"5,\"RockAndRoll\"6,\"Blues\"7,\"Latin\"8,\"Reggae\"9,\"Pop\"10,\"Soundtrack\"11,\"BossaNova\"12,\"EasyListening\"13,\"HeavyMetal\"14,\"R&B/Soul\"15,\"Electronica/Dance\"16,\"World\"17,\"HipHop/Rap\"18,\"ScienceFiction\"19,\"TVShows\"20,\"SciFi&Fantasy\"21,\"Drama\"22,\"Comedy\"23,\"Alternative\"24,\"Classical\"25,\"Opera\""
 		@expected_arff_sdb2_all_tables = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@ATTRIBUTEArtistIdNUMERIC@DATA1,\"ForThoseAboutToRockWeSaluteYou\",12,\"BallstotheWall\",23,\"RestlessandWild\",24,\"LetThereBeRock\",15,\"BigOnes\",36,\"JaggedLittlePill\",47,\"Facelift\",58,\"Warner25Anos\",69,\"PlaysMetallicaByFourCellos\",710,\"Audioslave\",8@RELATIONsqlite_sequence@ATTRIBUTEnameSTRING@ATTRIBUTEseqNUMERIC@DATA\"albums\",10\"employees\",8@RELATIONemployees@ATTRIBUTEEmployeeIdNUMERIC@ATTRIBUTELastNameSTRING@ATTRIBUTEFirstNameSTRING@ATTRIBUTETitleSTRING@ATTRIBUTEReportsToSTRING@ATTRIBUTEBirthDateSTRING@ATTRIBUTEHireDateSTRING@ATTRIBUTEAddressSTRING@ATTRIBUTECitySTRING@ATTRIBUTEStateSTRING@ATTRIBUTECountrySTRING@ATTRIBUTEPostalCodeSTRING@ATTRIBUTEPhoneSTRING@ATTRIBUTEFaxSTRING@ATTRIBUTEEmailSTRING@DATA1,\"Adams\",\"Andrew\",\"GeneralManager\",\"\",\"1962-02-1800:00:00\",\"2002-08-1400:00:00\",\"11120JasperAveNW\",\"Edmonton\",\"AB\",\"Canada\",\"T5K2N1\",\"+1(780)428-9482\",\"+1(780)428-3457\",\"andrew@chinookcorp.com\"2,\"Edwards\",\"Nancy\",\"SalesManager\",1,\"1958-12-0800:00:00\",\"2002-05-0100:00:00\",\"8258AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P2T3\",\"+1(403)262-3443\",\"+1(403)262-3322\",\"nancy@chinookcorp.com\"3,\"Peacock\",\"Jane\",\"SalesSupportAgent\",2,\"1973-08-2900:00:00\",\"2002-04-0100:00:00\",\"11116AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5M5\",\"+1(403)262-3443\",\"+1(403)262-6712\",\"jane@chinookcorp.com\"4,\"Park\",\"Margaret\",\"SalesSupportAgent\",2,\"1947-09-1900:00:00\",\"2003-05-0300:00:00\",\"68310StreetSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5G3\",\"+1(403)263-4423\",\"+1(403)263-4289\",\"margaret@chinookcorp.com\"5,\"Johnson\",\"Steve\",\"SalesSupportAgent\",2,\"1965-03-0300:00:00\",\"2003-10-1700:00:00\",\"7727B41Ave\",\"Calgary\",\"AB\",\"Canada\",\"T3B1Y7\",\"1(780)836-9987\",\"1(780)836-9543\",\"steve@chinookcorp.com\"6,\"Mitchell\",\"Michael\",\"ITManager\",1,\"1973-07-0100:00:00\",\"2003-10-1700:00:00\",\"5827BownessRoadNW\",\"Calgary\",\"AB\",\"Canada\",\"T3B0C5\",\"+1(403)246-9887\",\"+1(403)246-9899\",\"michael@chinookcorp.com\"7,\"King\",\"Robert\",\"ITStaff\",6,\"1970-05-2900:00:00\",\"2004-01-0200:00:00\",\"590ColumbiaBoulevardWest\",\"Lethbridge\",\"AB\",\"Canada\",\"T1K5N8\",\"+1(403)456-9986\",\"+1(403)456-8485\",\"robert@chinookcorp.com\"8,\"Callahan\",\"Laura\",\"ITStaff\",6,\"1968-01-0900:00:00\",\"2004-03-0400:00:00\",\"9237STNW\",\"Lethbridge\",\"AB\",\"Canada\",\"T1H1Y8\",\"+1(403)467-3351\",\"+1(403)467-8772\",\"laura@chinookcorp.com\""
@@ -83,11 +84,16 @@ describe ToARFF::SQLiteDB do
 		end
 	end
 
+	describe "convert_table_with_columns(table_name, columns)" do
+		it "should return a string containing ARFF for given table_name and columns." do
+			expect(@sdb2.convert_table_with_columns("albums", ["AlbumId", "Title"]).gsub(/[\n\t ]/,"")).to eql @expected_arff_albums_sdb2_w_cols
+		end
+	end
+
 	describe "convert(options={})" do
 		context "convert() with no parameter" do
 			it "should convert all the tables to their respective ARFFs." do
 				expect(@sdb2.convert().gsub(/[\n\t ]/,"")).to eql @expected_arff_sdb2_all_tables
-				puts "#{@sdb2.convert()}"
 			end
 		end
 		context "convert() with more than one parameters" do
@@ -100,18 +106,24 @@ describe ToARFF::SQLiteDB do
 		context "convert() with wrong parameter name" do
 			it "should raise Argument Error" do
 				expect{ @sdb2.convert(:column=>{"albums"=>["AlbumId", "Title"]}) }.to raise_error(ArgumentError)
+				expect{ @sdb1.convert(:blah=>{"albums"=>["AlbumId", "Title"]}) }.to raise_error(ArgumentError)
 			end
 		end
 		context "convert() with parameter :tables" do
 			it "should convert given tables to ARFFs." do
-				pending("Pending...")
-				raise "To be implemented."
+				expect(@sdb2.convert(:tables => ["albums", "employees"]).gsub(/[\n\t ]/,"")).to eql "#{@expected_arff_albums_sdb2}#{@expected_arff_employees_sdb2}"
+				expect(@sdb2.convert(:tables => ["albums"]).gsub(/[\n\t ]/,"")).to eql @expected_arff_albums_sdb2
 			end
 		end
 		context "convert() with parameter :columns" do
 			it "should convert given columns of given tables to ARFFs." do
-				pending("Pending...")
-				raise "To be implemented."
+				# pending("Pending...")
+				# raise "To be implemented."
+				# param1 = { "albums"=>["AlbumId", "Title"],
+				# 					 "employees"=>["EmployeeId", "LastName", "City"]
+				# 				 }
+				# param2 = { "albums"=>["AlbumId", "Title"] }
+				# puts @sdb2.convert(:columns => param1)
 			end
 		end
 		context "convert() with parameter :column_types" do
