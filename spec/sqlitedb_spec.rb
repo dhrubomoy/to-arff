@@ -133,6 +133,13 @@ describe ToARFF::SQLiteDB do
 			it "should convert given columns of given tables to ARFFs with given column/attribute types." do
 				pending("Pending...")
 				raise "To be implemented."
+				param1 = { "albums" => { "AlbumId"=>"NUMERIC",
+																 "Title"=>"STRING" },
+									 "employees" => { "EmployeeId"=>"NUMERIC",
+									 									"LastName"=>"STRING",
+									 									"City"=>"STRING" }
+								 }
+				@sdb2.convert(:column_types => param1)
 			end
 		end
 	end
