@@ -3,15 +3,23 @@ require 'sqlite3'
 
 module ToARFF
 
+  RELATION_MARKER = '@RELATION'
+  ATTRIBUTE_MARKER = '@ATTRIBUTE'
+	DATA_MARKER = '@DATA'
+
+	ATTRIBUTE_TYPE_NUMERIC = 'NUMERIC'
+	ATTRIBUTE_TYPE_STRING = 'STRING'
+
+
 	class SQLiteDB
 
 		attr_accessor :db_file_path, :db, :tables, :columns, :column_type
 
-		def initialize(path, options={})
+		def initialize(path)
 			@db_file_path = path
-			@tables = options.fetch(:tables, Array.new)
-			@columns = options.fetch(:columns, Hash.new)
-			@column_type = options.fetch(:columns, Hash.new)
+			@tables = Array.new
+			@columns = Hash.new
+			@column_type = Hash.new
 			process_db_file
 		end
 
@@ -79,28 +87,65 @@ module ToARFF
 			end
 		end
 
+		# Converts a table to ARFF.
 		def convert_table(table_name)
-			puts "@RELATION #{table_name}\n\n"
+			rel = "#{RELATION_MARKER} #{table_name}\n\n"
 			get_columns(table_name).each do |col|
 				if is_numeric(table_name, col)
-					puts "@ATTRIBUTE #{col} NUMERIC\n"
+					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
 				else
-					puts "@ATTRIBUTE #{col} NOMINAL\n"
+					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
 				end
 			end
-			puts "\n@DATA"
-			stm = @db.prepare "SELECT * FROM #{table_name}" 
-	    rs = stm.execute    
-	    rs.each do |row|
-	      puts row.join ","
-	    end
-	    puts "\n\n"
+			rel << "\n#{DATA_MARKER}\n"
+
+			data = @db.prepare "SELECT * FROM #{table_name}" 
+			data.each do |elem|
+				row = ""
+				elem.each do |val|
+					if val.is_a? Numeric
+						row = row + "#{val}" + ","
+					else
+						row = row + "\"#{val}\"" + ","
+					end
+				end
+				rel << row.strip.chomp(",")
+				rel << "\n"
+			end
+			rel << "\n\n\n"
+	    rel
 		end
 
-		def convert_all#(output_file_path)
-			@tables.each do |t|
-				convert_table(t)
+		def convert(options={})
+			temp_tables = options.fetch(:tables, Array.new)
+			temp_columns = options.fetch(:columns, Hash.new)
+			temp_column_types = options.fetch(:column_types, Hash.new)
+			res = ""
+			if options.keys.empty?
+				set_all_tables
+				@tables.each do |t|
+					res << convert_table(t)
+				end
 			end
+			if options.keys.length == 1
+				if options.keys.first.to_s != "tables" || options.keys.first.to_s != "columns" || options.keys.first.to_s != "column_types"
+					raise ArgumentError.new("Wrong parameter name #{options.keys.first}")
+				else
+					if !temp_tables.empty?
+						#PENDING...
+					end
+					if !temp_columns.keys.empty?
+						#PENDING...
+					end
+					if !temp_column_types.empty?
+						#PENDING...
+					end
+				end
+			end
+			if options.keys.length > 1
+				raise ArgumentError.new("You can specify only one out of the three parameters: table, columns, column_types.")
+			end
+			res
 		end
 
 	end
