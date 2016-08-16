@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe ToARFF::SQLiteDB do
 
-
 	before(:each) do
 	  @sdb1 = ToARFF::SQLiteDB.new "./spec/sample_db_files/sample1.db"
 	  @sdb2 = ToARFF::SQLiteDB.new "./spec/sample_db_files/sample2.db"

@@ -162,12 +162,12 @@ module ToARFF
 			temp_columns = options.fetch(:columns, Hash.new)
 			temp_column_types = options.fetch(:column_types, Hash.new)
 			res = ""
-			if options.keys.empty?
+			param_count = options.keys.length
+			if param_count == 0
 				@tables.each do |t|
 					res << convert_table(t)
 				end
-			end
-			if options.keys.length == 1
+			elsif param_count == 1
 				if options.keys.first.to_s != "tables" && options.keys.first.to_s != "columns" && options.keys.first.to_s != "column_types"
 					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first.to_s}\"")
 				else
@@ -186,8 +186,7 @@ module ToARFF
 						#PENDING...
 					end
 				end
-			end
-			if options.keys.length > 1
+			elsif param_count > 1
 				raise ArgumentError.new("You can specify only one out of the three parameters: table, columns, column_types.")
 			end
 			res
