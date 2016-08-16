@@ -5,6 +5,7 @@ ToARFF is a ruby library to convert SQLite database files and CSV files to ARFF 
 **What is an ARFF File:** [This wiki](http://weka.wikispaces.com/ARFF+%28book+version%29 ) describes perfectly,
 "An ARFF (Attribute-Relation File Format) file is an ASCII text file that describes a list of instances sharing a set of attributes. ARFF files were developed by the Machine Learning Project at the Department of Computer Science of The University of Waikato for use with the Weka machine learning software."
 
+**Note:** Converting from an SQLite database will generate one ARFF file per table. See [this stackoverflow post](http://stackoverflow.com/questions/37009995/weka-machine-learning-arff-file-multiple-relations).
 
 ## Installation
 
@@ -40,5 +41,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/dhrubo
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-
