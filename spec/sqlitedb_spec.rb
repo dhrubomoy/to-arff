@@ -126,7 +126,7 @@ describe ToARFF::SQLiteDB do
 				expect{ @sdb2.convert(:columns=>{"albums"=>["AlbumId", "Title"]}, :tables=>["AlbumId", "Title"]) }.to raise_error(ArgumentError)
 				expect{ @sdb2.convert(:columns=>{"albums"=>["AlbumId", "Title"]}, :tables=>["AlbumId", "Title"], :column_types=>{"albums"=>{"AlbumId"=>"STRING","NOMINAL"=>"STRING"}}) }.to raise_error(ArgumentError)
 			end
-		end	
+		end
 		context "convert() with wrong parameter name" do
 			it "should raise Argument Error" do
 				expect{ @sdb2.convert(:column=>{"albums"=>["AlbumId", "Title"]}) }.to raise_error(ArgumentError)

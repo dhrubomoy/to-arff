@@ -1,8 +1,10 @@
 # ToARFF
 
-Welcome to the ToARFF gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/to/arff`. To experiment with that code, run `bin/console` for an interactive prompt.
+ToARFF is a ruby library to convert SQLite database files and CSV files to ARFF files (Attribute-Relation File Format), which is used to specify datasets for WEKA, a machine learning and data mining tool.
 
-TODO: Delete this and the text above, and describe your gem
+**What is an ARFF File:** [This wiki](http://weka.wikispaces.com/ARFF+%28book+version%29 ) describes perfectly,
+"An ARFF (Attribute-Relation File Format) file is an ASCII text file that describes a list of instances sharing a set of attributes. ARFF files were developed by the Machine Learning Project at the Department of Computer Science of The University of Waikato for use with the Weka machine learning software."
+
 
 ## Installation
 
@@ -32,10 +34,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/to-arff. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dhrubomoy/to-arff. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
 
