@@ -94,8 +94,25 @@ describe ToARFF::SQLiteDB do
 		it "should raise argument error if invalid table was given" do
 			RSpec::Expectations.configuration.on_potential_false_positives = :nothing
 			expect{ @sdb1.check_given_tables_validity(['employees', 'Albums']) }.not_to raise_error(ArgumentError)
-			RSpec::Expectations.configuration.on_potential_false_positives = :warn
 			expect{ @sdb1.check_given_tables_validity(['employees', 'a', 'Albums']) }.to raise_error(ArgumentError)
+		end
+	end
+
+	describe "check_given_columns_validity(given_columns)" do
+		it "should raise argument error if invalid table was given" do
+			invalid_param1 = { "albums"=>['AlbumId', 'TitLe'],
+												 "employees"=>['EmployeeID', "asdf"]
+											 }
+			invalid_param2 = { "albums"=>['AlbumId', 'TitLe'],
+												 "employees"=>['EmployeeID', "asdf"],
+												 "invalid"=>["asdf"]
+											 }
+			valid_param = { "Albums"=>['albumID', 'TitLe'],
+											"employees"=>['EmployeeID']
+										}
+			expect{ @sdb1.check_given_columns_validity(invalid_param1) }.to raise_error(ArgumentError)
+			expect{ @sdb1.check_given_columns_validity(invalid_param2) }.to raise_error(ArgumentError)
+			expect{ @sdb1.check_given_columns_validity(valid_param) }.not_to raise_error(ArgumentError)
 		end
 	end
 

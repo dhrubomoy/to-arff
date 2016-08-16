@@ -138,6 +138,17 @@ module ToARFF
 			end
 		end
 
+		def check_given_columns_validity(given_columns)
+			given_tables = given_columns.keys
+			check_given_tables_validity(given_tables)
+			given_tables.each do |elem|
+				dif = downcase_array(given_columns[elem]) - downcase_array(@columns[elem])
+				if !dif.empty?		# If @tables doesn't contain all elements of given_tables
+					raise ArgumentError.new("#{dif.first} does not exist.")
+				end
+			end
+		end
+
 		def downcase_array(arr)
 			downcased_array = Array.new
 			arr.each do |elem|
@@ -167,9 +178,11 @@ module ToARFF
 						end
 					end
 					if !temp_columns.keys.empty?
+						check_given_columns_validity(temp_columns)
 						res << convert_from_columns_hash(temp_columns)
 					end
 					if !temp_column_types.empty?
+						check_given_columns_validity(temp_column_types)
 						#PENDING...
 					end
 				end
