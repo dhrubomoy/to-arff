@@ -21,6 +21,8 @@ module ToARFF
 			@columns = Hash.new
 			@column_type = Hash.new
 			process_db_file
+			set_all_tables
+			set_all_columns
 		end
 
 		def process_db_file
@@ -66,9 +68,6 @@ module ToARFF
 		end
 
 		def set_all_columns
-			if @tables.length == 0
-				set_all_tables
-			end
 			@tables.each do |t|
 				@columns[t] = get_columns(t)
 			end
@@ -132,13 +131,27 @@ module ToARFF
 			rel
 		end
 
+		def check_given_tables_validity(given_tables)
+			dif = downcase_array(given_tables) - downcase_array(@tables)
+			if !dif.empty?		# If @tables doesn't contain all elements of given_tables
+				raise ArgumentError.new("#{dif.first} does not exist.")
+			end
+		end
+
+		def downcase_array(arr)
+			downcased_array = Array.new
+			arr.each do |elem|
+				downcased_array.push(elem.downcase)
+			end
+			downcased_array
+		end
+
 		def convert(options={})
 			temp_tables = options.fetch(:tables, Array.new)
 			temp_columns = options.fetch(:columns, Hash.new)
 			temp_column_types = options.fetch(:column_types, Hash.new)
 			res = ""
 			if options.keys.empty?
-				set_all_tables
 				@tables.each do |t|
 					res << convert_table(t)
 				end
@@ -148,6 +161,7 @@ module ToARFF
 					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first.to_s}\"")
 				else
 					if !temp_tables.empty?
+						check_given_tables_validity(temp_tables)
 						temp_tables.each do |t|
 							res << convert_table(t)
 						end

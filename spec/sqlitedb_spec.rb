@@ -37,8 +37,6 @@ describe ToARFF::SQLiteDB do
 
 	describe "set_all_tables" do
 	  it '@tables instance variable should store all the table names as array.' do
-	  	@sdb1.set_all_tables
-	  	@sdb2.set_all_tables
 	  	expect(@sdb1.tables).to match_array @expected_tables_sdb1
 	  	expect(@sdb2.tables).to match_array @expected_tables_sdb2
 	  end
@@ -92,6 +90,15 @@ describe ToARFF::SQLiteDB do
 		end
 	end
 
+	describe "check_given_tables_validity(given_tables)" do 
+		it "should raise argument error if invalid table was given" do
+			RSpec::Expectations.configuration.on_potential_false_positives = :nothing
+			expect{ @sdb1.check_given_tables_validity(['employees', 'Albums']) }.not_to raise_error(ArgumentError)
+			RSpec::Expectations.configuration.on_potential_false_positives = :warn
+			expect{ @sdb1.check_given_tables_validity(['employees', 'a', 'Albums']) }.to raise_error(ArgumentError)
+		end
+	end
+
 	describe "convert(options={})" do
 		context "convert() with no parameter" do
 			it "should convert all the tables to their respective ARFFs." do
@@ -100,7 +107,6 @@ describe ToARFF::SQLiteDB do
 		end
 		context "convert() with more than one parameters" do
 			it "should raise Argument Error." do
-				# puts @sdb2.convert(:columns=>{"albums"=>["AlbumId", "Title"]}, :tables=>["AlbumId", "Title"])
 				expect{ @sdb2.convert(:columns=>{"albums"=>["AlbumId", "Title"]}, :tables=>["AlbumId", "Title"]) }.to raise_error(ArgumentError)
 				expect{ @sdb2.convert(:columns=>{"albums"=>["AlbumId", "Title"]}, :tables=>["AlbumId", "Title"], :column_types=>{"albums"=>{"AlbumId"=>"STRING","NOMINAL"=>"STRING"}}) }.to raise_error(ArgumentError)
 			end
