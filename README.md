@@ -129,7 +129,7 @@ As you can see, "HireDate" Attribute didn't have the correct datatype. It should
 ```ruby
 require 'to-arff'
 sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
-sample.convert table: ["albums","employees"]
+sample.convert tables: ["albums","employees"]
 # OR
 sample.convert
 ```
