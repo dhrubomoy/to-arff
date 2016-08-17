@@ -32,6 +32,25 @@ describe ToARFF::SQLiteDB do
 		@expected_arff_sdb2_all_tables = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@ATTRIBUTEArtistIdNUMERIC@DATA1,\"ForThoseAboutToRockWeSaluteYou\",12,\"BallstotheWall\",23,\"RestlessandWild\",24,\"LetThereBeRock\",15,\"BigOnes\",36,\"JaggedLittlePill\",47,\"Facelift\",58,\"Warner25Anos\",69,\"PlaysMetallicaByFourCellos\",710,\"Audioslave\",8@RELATIONsqlite_sequence@ATTRIBUTEnameSTRING@ATTRIBUTEseqNUMERIC@DATA\"albums\",10\"employees\",8@RELATIONemployees@ATTRIBUTEEmployeeIdNUMERIC@ATTRIBUTELastNameSTRING@ATTRIBUTEFirstNameSTRING@ATTRIBUTETitleSTRING@ATTRIBUTEReportsToSTRING@ATTRIBUTEBirthDateSTRING@ATTRIBUTEHireDateSTRING@ATTRIBUTEAddressSTRING@ATTRIBUTECitySTRING@ATTRIBUTEStateSTRING@ATTRIBUTECountrySTRING@ATTRIBUTEPostalCodeSTRING@ATTRIBUTEPhoneSTRING@ATTRIBUTEFaxSTRING@ATTRIBUTEEmailSTRING@DATA1,\"Adams\",\"Andrew\",\"GeneralManager\",\"\",\"1962-02-1800:00:00\",\"2002-08-1400:00:00\",\"11120JasperAveNW\",\"Edmonton\",\"AB\",\"Canada\",\"T5K2N1\",\"+1(780)428-9482\",\"+1(780)428-3457\",\"andrew@chinookcorp.com\"2,\"Edwards\",\"Nancy\",\"SalesManager\",1,\"1958-12-0800:00:00\",\"2002-05-0100:00:00\",\"8258AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P2T3\",\"+1(403)262-3443\",\"+1(403)262-3322\",\"nancy@chinookcorp.com\"3,\"Peacock\",\"Jane\",\"SalesSupportAgent\",2,\"1973-08-2900:00:00\",\"2002-04-0100:00:00\",\"11116AveSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5M5\",\"+1(403)262-3443\",\"+1(403)262-6712\",\"jane@chinookcorp.com\"4,\"Park\",\"Margaret\",\"SalesSupportAgent\",2,\"1947-09-1900:00:00\",\"2003-05-0300:00:00\",\"68310StreetSW\",\"Calgary\",\"AB\",\"Canada\",\"T2P5G3\",\"+1(403)263-4423\",\"+1(403)263-4289\",\"margaret@chinookcorp.com\"5,\"Johnson\",\"Steve\",\"SalesSupportAgent\",2,\"1965-03-0300:00:00\",\"2003-10-1700:00:00\",\"7727B41Ave\",\"Calgary\",\"AB\",\"Canada\",\"T3B1Y7\",\"1(780)836-9987\",\"1(780)836-9543\",\"steve@chinookcorp.com\"6,\"Mitchell\",\"Michael\",\"ITManager\",1,\"1973-07-0100:00:00\",\"2003-10-1700:00:00\",\"5827BownessRoadNW\",\"Calgary\",\"AB\",\"Canada\",\"T3B0C5\",\"+1(403)246-9887\",\"+1(403)246-9899\",\"michael@chinookcorp.com\"7,\"King\",\"Robert\",\"ITStaff\",6,\"1970-05-2900:00:00\",\"2004-01-0200:00:00\",\"590ColumbiaBoulevardWest\",\"Lethbridge\",\"AB\",\"Canada\",\"T1K5N8\",\"+1(403)456-9986\",\"+1(403)456-8485\",\"robert@chinookcorp.com\"8,\"Callahan\",\"Laura\",\"ITStaff\",6,\"1968-01-0900:00:00\",\"2004-03-0400:00:00\",\"9237STNW\",\"Lethbridge\",\"AB\",\"Canada\",\"T1H1Y8\",\"+1(403)467-3351\",\"+1(403)467-8772\",\"laura@chinookcorp.com\""
 		@expected_arff_columns_sdb2_param1 = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@DATA1,\"ForThoseAboutToRockWeSaluteYou\"2,\"BallstotheWall\"3,\"RestlessandWild\"4,\"LetThereBeRock\"5,\"BigOnes\"6,\"JaggedLittlePill\"7,\"Facelift\"8,\"Warner25Anos\"9,\"PlaysMetallicaByFourCellos\"10,\"Audioslave\"@RELATIONemployees@ATTRIBUTEEmployeeIdNUMERIC@ATTRIBUTELastNameSTRING@ATTRIBUTECitySTRING@DATA1,\"Adams\",\"Edmonton\"2,\"Edwards\",\"Calgary\"3,\"Peacock\",\"Calgary\"4,\"Park\",\"Calgary\"5,\"Johnson\",\"Calgary\"6,\"Mitchell\",\"Calgary\"7,\"King\",\"Lethbridge\"8,\"Callahan\",\"Lethbridge\""
 		@expected_arff_columns_sdb2_param2 = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@DATA1,\"ForThoseAboutToRockWeSaluteYou\"2,\"BallstotheWall\"3,\"RestlessandWild\"4,\"LetThereBeRock\"5,\"BigOnes\"6,\"JaggedLittlePill\"7,\"Facelift\"8,\"Warner25Anos\"9,\"PlaysMetallicaByFourCellos\"10,\"Audioslave\""
+		@expected_arff_column_types_sdb2_param1 = "@RELATIONalbums@ATTRIBUTEAlbumidNUMERIC@ATTRIBUTETitleSTRING@DATA1,\"ForThoseAboutToRockWeSaluteYou\"2,\"BallstotheWall\"3,\"RestlessandWild\"4,\"LetThereBeRock\"5,\"BigOnes\"6,\"JaggedLittlePill\"7,\"Facelift\"8,\"Warner25Anos\"9,\"PlaysMetallicaByFourCellos\"10,\"Audioslave\"@RELATIONemployees@ATTRIBUTEEmployeeIdNUMERIC@ATTRIBUTELastNameSTRING@ATTRIBUTECitySTRING@ATTRIBUTEHireDateDATE'yyyy-MM-ddHH:mm:ss'@DATA1,\"Adams\",\"Edmonton\",\"2002-08-1400:00:00\"2,\"Edwards\",\"Calgary\",\"2002-05-0100:00:00\"3,\"Peacock\",\"Calgary\",\"2002-04-0100:00:00\"4,\"Park\",\"Calgary\",\"2003-05-0300:00:00\"5,\"Johnson\",\"Calgary\",\"2003-10-1700:00:00\"6,\"Mitchell\",\"Calgary\",\"2003-10-1700:00:00\"7,\"King\",\"Lethbridge\",\"2004-01-0200:00:00\"8,\"Callahan\",\"Lethbridge\",\"2004-03-0400:00:00\""
+		@invalid_columns1 = { "album"=>['AlbumId', 'TitLe'],
+												 "employees"=>['EmployeeID', "asdf"]
+											 }
+		@invalid_columns2 = { "albums"=>['AlbumId', 'TitLe'],
+											 	 "employees"=>['EmployeeID', "asdf"],
+											   "invalid"=>["asdf"]
+										 	 }
+		@invalid_columns_types1 = { "album"=>['AlbumId', 'TitLe'],
+												 "employees"=>['EmployeeID', "asdf"]
+											 }
+		@invalid_columns_types2 = { "albums"=>['AlbumId', 'TitLe'],
+											 	 "employees"=>['EmployeeID', "asdf"],
+											   "invalid"=>["asdf"]
+										 	 }
+		@valid_columns = { "Albums"=>['albumID', 'TitLe'],
+											"employees"=>['EmployeeID']
+										}
+		@invalid_tables = ['employees', 'a', 'Albums']
 	end
 
 	describe "set_all_tables" do
@@ -89,32 +108,6 @@ describe ToARFF::SQLiteDB do
 		end
 	end
 
-	describe "check_given_tables_validity(given_tables)" do 
-		it "should raise argument error if invalid table was given" do
-			RSpec::Expectations.configuration.on_potential_false_positives = :nothing
-			expect{ @sdb1.check_given_tables_validity(['employees', 'Albums']) }.not_to raise_error(ArgumentError)
-			expect{ @sdb1.check_given_tables_validity(['employees', 'a', 'Albums']) }.to raise_error(ArgumentError)
-		end
-	end
-
-	describe "check_given_columns_validity(given_columns)" do
-		it "should raise argument error if invalid table was given" do
-			invalid_param1 = { "albums"=>['AlbumId', 'TitLe'],
-												 "employees"=>['EmployeeID', "asdf"]
-											 }
-			invalid_param2 = { "albums"=>['AlbumId', 'TitLe'],
-												 "employees"=>['EmployeeID', "asdf"],
-												 "invalid"=>["asdf"]
-											 }
-			valid_param = { "Albums"=>['albumID', 'TitLe'],
-											"employees"=>['EmployeeID']
-										}
-			expect{ @sdb1.check_given_columns_validity(invalid_param1) }.to raise_error(ArgumentError)
-			expect{ @sdb1.check_given_columns_validity(invalid_param2) }.to raise_error(ArgumentError)
-			expect{ @sdb1.check_given_columns_validity(valid_param) }.not_to raise_error(ArgumentError)
-		end
-	end
-
 	describe "convert(options={})" do
 		context "convert() with no parameter" do
 			it "should convert all the tables to their respective ARFFs." do
@@ -141,8 +134,6 @@ describe ToARFF::SQLiteDB do
 		end
 		context "convert() with parameter :columns" do
 			it "should convert given columns of given tables to ARFFs." do
-				# pending("Pending...")
-				# raise "To be implemented."
 				param1 = { "albums"=>["AlbumId", "Title"],
 									 "employees"=>["EmployeeId", "LastName", "City"]
 								 }
@@ -153,15 +144,49 @@ describe ToARFF::SQLiteDB do
 		end
 		context "convert() with parameter :column_types" do
 			it "should convert given columns of given tables to ARFFs with given column/attribute types." do
-				pending("Pending...")
-				raise "To be implemented."
-				param1 = { "albums" => { "AlbumId"=>"NUMERIC",
+				param1 = { "albums" => { "Albumid"=>"NUMERIC",
 																 "Title"=>"STRING" },
 									 "employees" => { "EmployeeId"=>"NUMERIC",
 									 									"LastName"=>"STRING",
-									 									"City"=>"STRING" }
+									 									"City"=>"STRING",
+									 									"HireDate"=>"DATE 'yyyy-MM-dd HH:mm:ss'"
+									 								}
 								 }
-				@sdb2.convert(:column_types => param1)
+				expect(@sdb2.convert(:column_types => param1).gsub(/[\n\t ]/,"")).to eql @expected_arff_column_types_sdb2_param1
+			end
+		end
+		context "convert() with invalid :tables" do 
+			it "should raise ArgumentError" do 
+				expect{ @sdb1.convert(:tables=>@invalid_tables) }.to raise_error(ArgumentError, "\"a\" does not exist.")
+			end
+		end
+		context "convert() with invalid :columns" do 
+			it "should raise ArgumentError" do 
+				expect{ @sdb1.convert(:columns=>@invalid_columns1) }.to raise_error(ArgumentError, "\"album\" does not exist.")
+				expect{ @sdb1.convert(:columns=>@invalid_columns2) }.to raise_error(ArgumentError, "\"invalid\" does not exist.")
+			end
+		end
+		context "convert() with invalid :columns" do 
+			it "should raise ArgumentError" do 
+				expect{ @sdb1.convert(:columns=>@invalid_columns1) }.to raise_error(ArgumentError, "\"album\" does not exist.")
+				expect{ @sdb1.convert(:columns=>@invalid_columns2) }.to raise_error(ArgumentError, "\"invalid\" does not exist.")
+			end
+		end
+		context "convert() with invalid :column_types" do 
+			it "should raise ArgumentError" do 
+				# expect{ @sdb1.convert(:columns=>@invalid_columns_types1) }.to raise_error(ArgumentError, "\"album\" does not exist.")
+				# expect{ @sdb1.convert(:columns=>@invalid_columns_types2) }.to raise_error(ArgumentError, "\"invalid\" does not exist.")
+			
+				param1 = { "albums" => { "Albumicd"=>"NUMERIC",
+																 "Title"=>"STRING" },
+									 "employees" => { "EmployeeId"=>"NUMERIC",
+									 									"LastName"=>"STRING",
+									 									"City"=>"STRING",
+									 									"HireDate"=>"DATE 'yyyy-MM-dd HH:mm:ss'"
+									 								}
+								 }
+				# @sdb2.convert(:column_types => param1)
+				expect{ @sdb2.convert(:column_types => param1) }.to raise_error(ArgumentError, "\"albumicd\" does not exist.")
 			end
 		end
 	end

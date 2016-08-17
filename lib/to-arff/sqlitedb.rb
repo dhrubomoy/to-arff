@@ -91,13 +91,19 @@ module ToARFF
 	  	convert_table_with_columns(table_name, get_columns(table_name))
 		end
 
-		def convert_table_with_columns(table_name, columns)
+		def convert_table_with_columns(table_name, columns, column_types=nil)
 			rel = "#{RELATION_MARKER} #{table_name}\n\n"
-			columns.each do |col|
-				if is_numeric(table_name, col)
-					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
-				else
-					rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
+			if column_types.nil?
+				columns.each do |col|
+					if is_numeric(table_name, col)
+						rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_NUMERIC}\n"
+					else
+						rel << "#{ATTRIBUTE_MARKER} #{col} #{ATTRIBUTE_TYPE_STRING}\n"
+					end
+				end
+			else
+				columns.each do |col|
+					rel << "#{ATTRIBUTE_MARKER} #{col} #{column_types[table_name][col]}\n"
 				end
 			end
 			columns_str = ""
@@ -131,10 +137,18 @@ module ToARFF
 			rel
 		end
 
+		def convert_from_column_types_hash(col_types_hash)
+			rel = ""
+			col_types_hash.keys.each do |table|
+				rel << convert_table_with_columns(table, col_types_hash[table].keys, col_types_hash)
+			end
+			rel
+		end
+
 		def check_given_tables_validity(given_tables)
 			dif = downcase_array(given_tables) - downcase_array(@tables)
 			if !dif.empty?		# If @tables doesn't contain all elements of given_tables
-				raise ArgumentError.new("#{dif.first} does not exist.")
+				raise ArgumentError.new("\"#{dif.first}\" does not exist.")
 			end
 		end
 
@@ -144,7 +158,7 @@ module ToARFF
 			given_tables.each do |elem|
 				dif = downcase_array(given_columns[elem]) - downcase_array(@columns[elem])
 				if !dif.empty?		# If @tables doesn't contain all elements of given_tables
-					raise ArgumentError.new("#{dif.first} does not exist.")
+					raise ArgumentError.new("\"#{dif.first}\" does not exist.")
 				end
 			end
 		end
@@ -152,7 +166,11 @@ module ToARFF
 		def downcase_array(arr)
 			downcased_array = Array.new
 			arr.each do |elem|
-				downcased_array.push(elem.downcase)
+				if elem.is_a? String
+					downcased_array.push(elem.downcase)
+				elsif elem.is_a? Array
+					downcased_array.push(elem.first.downcase)
+				end
 			end
 			downcased_array
 		end
@@ -183,7 +201,7 @@ module ToARFF
 					end
 					if !temp_column_types.empty?
 						check_given_columns_validity(temp_column_types)
-						#PENDING...
+						res << convert_from_column_types_hash(temp_column_types)
 					end
 				end
 			elsif param_count > 1
