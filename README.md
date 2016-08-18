@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/dhrubomoy/to-arff.svg?branch=master)](https://travis-ci.org/dhrubomoy/to-arff)
 [![Coverage Status](https://coveralls.io/repos/github/dhrubomoy/to-arff/badge.svg)](https://coveralls.io/github/dhrubomoy/to-arff)
 [![Gem Version](https://badge.fury.io/rb/to-arff.svg)](https://badge.fury.io/rb/to-arff)
+[![Dependency Status](https://gemnasium.com/badges/github.com/dhrubomoy/to-arff.svg)](https://gemnasium.com/github.com/dhrubomoy/to-arff)
 ##Table of Content
 - [About](#about)
   - [What is an ARFF File](#what-is-an-arff-file)
