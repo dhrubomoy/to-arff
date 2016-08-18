@@ -9,3 +9,6 @@ before_install:
   - gem install bundler
 
 script: 'bundle exec rspec spec'
+
+after_success:
+- CI=true TRAVIS=true coveralls --verbose
