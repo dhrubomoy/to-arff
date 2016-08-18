@@ -7,12 +7,12 @@ require 'to-arff'
 Gem::Specification.new do |spec|
   spec.name          = "to-arff"
   spec.version       = ToARFF::VERSION
-  spec.authors       = ["Dhrubomoy Das Gupta"]
+  spec.authors       = ["dhrubo_moy"]
   spec.email         = ["dhrubo_moy@yahoo.com"]
 
   spec.summary       = %q{ ToARFF is a ruby gem to convert sqlite database file and csv file to ARFF (Attribute-Relation File Format) file }
   #spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/dhrubomoy/to-arff"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
