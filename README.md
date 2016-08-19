@@ -96,6 +96,10 @@ We will get something similar to following:
 ```ruby
 require 'to-arff'
 sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
+# Column names must be specified like this:
+# { "table1" => ["column11", "column12",...],
+#   "table2" => ["column21", "column22",...]
+# }
 sample_columns =  { "albums" => ["AlbumId", "Title", "ArtistId"],
                     "employees" => ["EmployeeId", "LastName", "FirstName", "Title"]
                   }
