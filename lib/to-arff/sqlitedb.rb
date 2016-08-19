@@ -71,8 +71,12 @@ module ToARFF
 	  	convert_table_with_columns(table_name, get_columns(table_name))
 		end
 
-		def convert_table_with_columns(table_name, columns, column_types=nil)
-			rel = "#{RELATION_MARKER} #{table_name}\n\n"
+		def write_relation(table_name)
+			"#{RELATION_MARKER} #{table_name}\n\n"
+		end
+
+		def write_attributes(table_name, columns, column_types)
+			rel = ""
 			if column_types.nil?
 				columns.each do |col|
 					if is_numeric(table_name, col)
@@ -86,6 +90,11 @@ module ToARFF
 					rel << "#{ATTRIBUTE_MARKER} #{col} #{column_types[table_name][col]}\n"
 				end
 			end
+			rel
+		end
+
+		def write_data(table_name, columns)
+			rel = ""
 			columns_str = ""
 			columns.each do |col|
 				columns_str += col + ", "
@@ -107,6 +116,13 @@ module ToARFF
 			end
 			rel << "\n\n\n"
 	    rel
+		end
+
+		def convert_table_with_columns(table_name, columns, column_types=nil)
+			rel = write_relation(table_name)
+			rel << write_attributes(table_name, columns, column_types)
+			rel << write_data(table_name, columns)
+			rel
 		end
 
 		def convert_from_columns_hash(cols_hash)
@@ -155,6 +171,26 @@ module ToARFF
 			downcased_array
 		end
 
+		def valid_option_given(options)
+			return options.keys.first.to_s != "tables" && options.keys.first.to_s != "columns" && options.keys.first.to_s != "column_types"
+		end
+
+		# If valid option was provided in convert method
+		def deal_with_valid_option(temp_tables, temp_columns, temp_column_types, res)
+			if !temp_tables.empty?
+				check_given_tables_validity(temp_tables)
+				temp_tables.each do |t|
+					res << convert_table(t)
+				end
+			elsif !temp_columns.keys.empty?
+				check_given_columns_validity(temp_columns)
+				res << convert_from_columns_hash(temp_columns)
+			elsif !temp_column_types.empty?
+				check_given_columns_validity(temp_column_types)
+				res << convert_from_column_types_hash(temp_column_types)
+			end
+		end
+
 		def convert(options={})
 			temp_tables = options.fetch(:tables, Array.new)
 			temp_columns = options.fetch(:columns, Hash.new)
@@ -166,23 +202,10 @@ module ToARFF
 					res << convert_table(t)
 				end
 			elsif param_count == 1
-				if options.keys.first.to_s != "tables" && options.keys.first.to_s != "columns" && options.keys.first.to_s != "column_types"
-					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first.to_s}\"")
+				if valid_option_given(options)
+					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first}\"")
 				else
-					if !temp_tables.empty?
-						check_given_tables_validity(temp_tables)
-						temp_tables.each do |t|
-							res << convert_table(t)
-						end
-					end
-					if !temp_columns.keys.empty?
-						check_given_columns_validity(temp_columns)
-						res << convert_from_columns_hash(temp_columns)
-					end
-					if !temp_column_types.empty?
-						check_given_columns_validity(temp_column_types)
-						res << convert_from_column_types_hash(temp_column_types)
-					end
+					deal_with_valid_option(temp_tables, temp_columns, temp_column_types, res)
 				end
 			elsif param_count > 1
 				raise ArgumentError.new("You can specify only one out of the three parameters: table, columns, column_types.")

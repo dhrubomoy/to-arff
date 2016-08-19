@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/dhrubomoy/to-arff/badge.svg)](https://coveralls.io/github/dhrubomoy/to-arff)
 [![Gem Version](https://badge.fury.io/rb/to-arff.svg)](https://badge.fury.io/rb/to-arff)
 [![Dependency Status](https://gemnasium.com/badges/github.com/dhrubomoy/to-arff.svg)](https://gemnasium.com/github.com/dhrubomoy/to-arff)
+[![Code Climate](https://codeclimate.com/github/dhrubomoy/to-arff/badges/gpa.svg)](https://codeclimate.com/github/dhrubomoy/to-arff)
 ##Table of Content
 - [About](#about)
   - [What is an ARFF File](#what-is-an-arff-file)
