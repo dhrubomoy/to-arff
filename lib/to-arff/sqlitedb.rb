@@ -94,16 +94,16 @@ module ToARFF
 		end
 
 		def write_data(table_name, columns)
-			rel = ""
-			columns_str = ""
+			rel = ''
+			columns_str = ''
 			columns.each do |col|
-				columns_str += col + ", "
+				columns_str += col + ', '
 			end
-			columns_str = columns_str.chomp(", ")
+			columns_str = columns_str.chomp(', ')
 			rel << "\n#{DATA_MARKER}\n"
 			data = @db.prepare "SELECT #{columns_str} FROM #{table_name}" 
 			data.each do |elem|
-				row = ""
+				row = ''
 				elem.each do |val|
 					if val.is_a? Numeric
 						row = row + "#{val}" + ","

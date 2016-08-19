@@ -194,10 +194,7 @@ describe ToARFF::SQLiteDB do
 			end
 		end
 		context "convert() with invalid :column_types" do 
-			it "should raise ArgumentError" do 
-				# expect{ @sdb1.convert(:columns=>@invalid_columns_types1) }.to raise_error(ArgumentError, "\"album\" does not exist.")
-				# expect{ @sdb1.convert(:columns=>@invalid_columns_types2) }.to raise_error(ArgumentError, "\"invalid\" does not exist.")
-			
+			it "should raise ArgumentError" do 			
 				param1 = { "albums" => { "Albumicd"=>"NUMERIC",
 																 "Title"=>"STRING" },
 									 "employees" => { "EmployeeId"=>"NUMERIC",
