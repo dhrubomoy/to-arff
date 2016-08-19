@@ -153,7 +153,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/dhrubo
 1. Fork it ( https://github.com/dhrubomoy/to-arff/fork )
 2. Create branch (`git checkout -b my-new-feature`)
 3. Make changes. Add test cases for your changes
-4. Run `rspec spec/` and make sure all the test passes
+4. Run `rake spec/` and make sure all the test passes
 5. Commit your changes (`git commit -am 'Add some feature'`)
 6. Push to the branch (`git push origin my-new-feature`)
 7. Create new Pull Request
