@@ -1,6 +1,10 @@
-require 'simplecov'
-SimpleCov.command_name 'RSpec'
-SimpleCov.start
+require 'coveralls'
+Coveralls.wear!
+
+# require 'simplecov'
+# SimpleCov.command_name 'RSpec'
+# SimpleCov.start
+
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'to-arff.rb'
