@@ -2,7 +2,7 @@ require 'to-arff/version'
 require 'sqlite3'
 
 module ToARFF
-	RELATION_MARKER = '@RELATION'.freeze
+  RELATION_MARKER = '@RELATION'.freeze
   ATTRIBUTE_MARKER = '@ATTRIBUTE'.freeze
   DATA_MARKER = '@DATA'.freeze
   ATTRIBUTE_TYPE_NUMERIC = 'NUMERIC'.freeze
@@ -12,7 +12,7 @@ module ToARFF
 		attr_accessor :db_file_path, :db, :tables, :columns, :column_type
 
 		def initialize(path)
-			@db_file_path = path
+		  @db_file_path = path
 			@tables = []
 			@columns = {}
 			@column_type = {}
