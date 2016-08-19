@@ -3,26 +3,28 @@ require 'spec_helper'
 describe ToARFF::SQLiteDB do
 
 	before(:each) do
-	  @sdb1 = ToARFF::SQLiteDB.new "./spec/sample_db_files/sample1.db"
-	  @sdb2 = ToARFF::SQLiteDB.new "./spec/sample_db_files/sample2.db"
+		@db_file_path1 = "./spec/sample_db_files/sample1.db"
+		@db_file_path2 = "./spec/sample_db_files/sample2.db"
+	  @sdb1 = ToARFF::SQLiteDB.new @db_file_path1
+	  @sdb2 = ToARFF::SQLiteDB.new @db_file_path2
 		@expected_columns_sdb1 = {"albums" => ["AlbumId", "Title", "ArtistId"],
-												"employees" => ["EmployeeId", "LastName", "FirstName", "Title", "ReportsTo", "BirthDate", "HireDate", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email"],
-												"invoices" => ["InvoiceId", "CustomerId", "InvoiceDate", "BillingAddress", "BillingCity", "BillingState", "BillingCountry", "BillingPostalCode", "Total"],
-												"playlists" => ["PlaylistId", "Name"],
-												"artists" => ["ArtistId", "Name"],
-												"genres" => ["GenreId", "Name"], 
-												"media_types" => ["MediaTypeId", "Name"],
-												"tracks" => ["TrackId", "Name", "AlbumId", "MediaTypeId", "GenreId", "Composer", "Milliseconds", "Bytes", "UnitPrice"],
-												"customers" => ["CustomerId", "FirstName", "LastName", "Company", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email", "SupportRepId"],
-												"invoice_items" => ["InvoiceLineId", "InvoiceId", "TrackId", "UnitPrice", "Quantity"],
-												"playlist_track" => ["PlaylistId", "TrackId"],
-												"sqlite_sequence" => ["name", "seq"],
-												"sqlite_stat1" => ["tbl", "idx", "stat"]
-											}
+															"employees" => ["EmployeeId", "LastName", "FirstName", "Title", "ReportsTo", "BirthDate", "HireDate", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email"],
+															"invoices" => ["InvoiceId", "CustomerId", "InvoiceDate", "BillingAddress", "BillingCity", "BillingState", "BillingCountry", "BillingPostalCode", "Total"],
+															"playlists" => ["PlaylistId", "Name"],
+															"artists" => ["ArtistId", "Name"],
+															"genres" => ["GenreId", "Name"], 
+															"media_types" => ["MediaTypeId", "Name"],
+															"tracks" => ["TrackId", "Name", "AlbumId", "MediaTypeId", "GenreId", "Composer", "Milliseconds", "Bytes", "UnitPrice"],
+															"customers" => ["CustomerId", "FirstName", "LastName", "Company", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email", "SupportRepId"],
+															"invoice_items" => ["InvoiceLineId", "InvoiceId", "TrackId", "UnitPrice", "Quantity"],
+															"playlist_track" => ["PlaylistId", "TrackId"],
+															"sqlite_sequence" => ["name", "seq"],
+															"sqlite_stat1" => ["tbl", "idx", "stat"]
+														}
 		@expected_columns_sdb2 = {"albums" => ["AlbumId", "Title", "ArtistId"],
-												"employees" => ["EmployeeId", "LastName", "FirstName", "Title", "ReportsTo", "BirthDate", "HireDate", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email"],
-												"sqlite_sequence" => ["name", "seq"]
-												}
+															"employees" => ["EmployeeId", "LastName", "FirstName", "Title", "ReportsTo", "BirthDate", "HireDate", "Address", "City", "State", "Country", "PostalCode", "Phone", "Fax", "Email"],
+															"sqlite_sequence" => ["name", "seq"]
+															}
 		@expected_tables_sdb1 = @expected_columns_sdb1.keys
 		@expected_tables_sdb2 = @expected_columns_sdb2.keys
 		@expected_arff_albums_sdb2 = "@RELATIONalbums@ATTRIBUTEAlbumIdNUMERIC@ATTRIBUTETitleSTRING@ATTRIBUTEArtistIdNUMERIC@DATA1,\"ForThoseAboutToRockWeSaluteYou\",12,\"BallstotheWall\",23,\"RestlessandWild\",24,\"LetThereBeRock\",15,\"BigOnes\",36,\"JaggedLittlePill\",47,\"Facelift\",58,\"Warner25Anos\",69,\"PlaysMetallicaByFourCellos\",710,\"Audioslave\",8"
@@ -51,6 +53,25 @@ describe ToARFF::SQLiteDB do
 											"employees"=>['EmployeeID']
 										}
 		@invalid_tables = ['employees', 'a', 'Albums']
+	end
+
+	describe "process_db_file" do
+		context "with valid db file path" do
+			it "should set '@db_file_path' to the path given." do
+				valid = ToARFF::SQLiteDB.new @db_file_path2
+				expect(valid.db_file_path).to eql @db_file_path2
+			end
+		end
+		context "with an empty file path" do
+			it "should raise an error." do
+				expect{ ToARFF::SQLiteDB.new '' }.to raise_error("Database File Path cannot be empty.")
+			end
+		end
+		context "with a nonexistent file path" do
+			it "should raise an error." do
+				expect{ ToARFF::SQLiteDB.new "./spec/sample_db_files/sample666.db" }.to raise_error RuntimeError, "./spec/sample_db_files/sample666.db doesn't exist. Enter a valid file path."
+			end
+		end
 	end
 
 	describe "set_all_tables" do

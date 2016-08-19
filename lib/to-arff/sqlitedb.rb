@@ -1,25 +1,21 @@
-require "to-arff/version"
+require 'to-arff/version'
 require 'sqlite3'
 
 module ToARFF
-
-  RELATION_MARKER = '@RELATION'
-  ATTRIBUTE_MARKER = '@ATTRIBUTE'
-	DATA_MARKER = '@DATA'
-
-	ATTRIBUTE_TYPE_NUMERIC = 'NUMERIC'
-	ATTRIBUTE_TYPE_STRING = 'STRING'
-
+	RELATION_MARKER = '@RELATION'.freeze
+  ATTRIBUTE_MARKER = '@ATTRIBUTE'.freeze
+  DATA_MARKER = '@DATA'.freeze
+  ATTRIBUTE_TYPE_NUMERIC = 'NUMERIC'.freeze
+  ATTRIBUTE_TYPE_STRING = 'STRING'.freeze
 
 	class SQLiteDB
-
 		attr_accessor :db_file_path, :db, :tables, :columns, :column_type
 
 		def initialize(path)
 			@db_file_path = path
-			@tables = Array.new
-			@columns = Hash.new
-			@column_type = Hash.new
+			@tables = []
+			@columns = {}
+			@column_type = {}
 			process_db_file
 			set_all_tables
 			set_all_columns
@@ -28,11 +24,7 @@ module ToARFF
 		def process_db_file
 			if @db_file_path != ''
 				if File.exist? "#{@db_file_path}"
-					begin
-						@db = SQLite3::Database.open "#{@db_file_path}"
-					rescue SQLite3::Exception => e 
-						puts "#{e}"
-					end
+					@db = SQLite3::Database.open "#{@db_file_path}"
 				else
 					raise "#{@db_file_path} doesn't exist. Enter a valid file path."
 				end
@@ -43,28 +35,20 @@ module ToARFF
 
 		# Get all the tables' name and store them in an array (@tables).
 		def set_all_tables
-			begin
-				tables_arr = @db.execute("SELECT name FROM sqlite_master WHERE type='table';")
-				tables_arr.each do |elem|
-					@tables.push(elem.first)
-				end
-			rescue SQLite3::Exception => e 
-				puts "#{e}"
+			tables_arr = @db.execute("SELECT name FROM sqlite_master WHERE type='table';")
+			tables_arr.each do |elem|
+				@tables.push(elem.first)
 			end
 		end
 
 		# Get all colums for a given table.
 		def get_columns(table_name)
-			columns_arr = Array.new
-			begin
+			columns_arr = []
 		    pst = @db.prepare "SELECT * FROM #{table_name} LIMIT 6"
 		    pst.columns.each do |c|
 		    	columns_arr.push(c)
 		    end
 		  columns_arr
-			rescue SQLite3::Exception => e
-			  puts e
-			end
 		end
 
 		def set_all_columns
@@ -75,14 +59,10 @@ module ToARFF
 
 		# If the column type is nominal return true.
 		def is_numeric(table_name, column_name)
-			begin
-				if @db.execute("SELECT #{column_name} from #{table_name} LIMIT 1").first.first.is_a? Numeric
-					return true
-				else
-					return false
-				end
-			rescue SQLite3::Exception => e
-			  puts e
+			if @db.execute("SELECT #{column_name} from #{table_name} LIMIT 1").first.first.is_a? Numeric
+				return true
+			else
+				return false
 			end
 		end
 
