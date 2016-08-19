@@ -1,7 +1,12 @@
 require 'coveralls'
 Coveralls.wear!
 
-# require 'simplecov'
+require 'simplecov'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start
 # SimpleCov.command_name 'RSpec'
 # SimpleCov.start
 
