@@ -54,14 +54,14 @@ sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
 #                    "column22"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
 #                   }
 sample_column_types_param = { "employees" => {"EmployeeId"=>"NUMERIC",
-                            "LastName"=>"STRING",
-                            "City"=>"STRING",
-                            "HireDate"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
-                           },
-                    "albums" => { "Albumid"=>"NUMERIC",
-                              "Title"=>"STRING"
+                                              "LastName"=>"STRING",
+                                              "City"=>"STRING",
+                                              "HireDate"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
+                                             },
+                              "albums" => { "Albumid"=>"NUMERIC",
+                                            "Title"=>"STRING"
+                                          }
                             }
-                }
 puts sample.convert column_types: sample_column_types_param
 ```
 We will get something similar to following:
@@ -96,8 +96,8 @@ We will get something similar to following:
 require 'to-arff'
 sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
 sample_columns =  { "albums" => ["AlbumId", "Title", "ArtistId"],
-            "employees" => ["EmployeeId", "LastName", "FirstName", "Title"]
-          }
+                    "employees" => ["EmployeeId", "LastName", "FirstName", "Title"]
+                  }
 puts sample.convert columns: sample_columns
 ```
 We will get something similar:
