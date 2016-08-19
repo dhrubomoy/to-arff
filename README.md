@@ -18,7 +18,7 @@ ToARFF is a ruby library to convert SQLite database files to ARFF files (Attribu
 
 ### What is an ARFF File: 
 [This wiki](http://weka.wikispaces.com/ARFF+%28book+version%29 ) describes perfectly,
-"An ARFF (Attribute-Relation File Format) file is an ASCII text file that describes a list of instances sharing a set of attributes. ARFF files were developed by the Machine Learning Project at the Department of Computer Science of The University of Waikato for use with the Weka machine learning software."
+> "An ARFF (Attribute-Relation File Format) file is an ASCII text file that describes a list of instances sharing a set of attributes. ARFF files were developed by the Machine Learning Project at the Department of Computer Science of The University of Waikato for use with the Weka machine learning software."
 
 **Note:** Converting from an SQLite database will generate one ARFF file per table. See [this stackoverflow post](http://stackoverflow.com/questions/37009995/weka-machine-learning-arff-file-multiple-relations).
 
@@ -130,7 +130,7 @@ We will get something similar:
 ```
 As you can see, "HireDate" Attribute didn't have the correct datatype. It should be "DATE "yyyy-MM-dd HH:mm:ss"", not "STRING"
 
-#### You can also do following, but might not generate correct datatypes
+###### You can also do following, but might not generate correct datatypes
 ```ruby
 require 'to-arff'
 sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
