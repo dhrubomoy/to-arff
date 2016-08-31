@@ -51,10 +51,10 @@ require 'to-arff'
 # Get the db file from https://github.com/dhrubomoy/to-arff/blob/master/spec/sample_db_files/sample2.db
 sample = ToARFF::SQLiteDB.new "/path/to/sample2.db"
 # Attribute names and types must be valid
-# eg. { "table1" => {"column11"=>"NUMERIC",
+# eg. { "table1": {"column11"=>"NUMERIC",
 #                    "column12"=>"STRING"
 #                   },
-#       "table2" => {"column21"=>"class {Iris-setosa,Iris-versicolor,Iris-virginica}",
+#       "table2": {"column21"=>"class {Iris-setosa,Iris-versicolor,Iris-virginica}",
 #                    "column22"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
 #                   }
 #     }
