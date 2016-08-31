@@ -1,5 +1,6 @@
 require 'to-arff/version'
 require 'sqlite3'
+require 'json'
 
 module ToARFF
   RELATION_MARKER = '@RELATION'.freeze
@@ -191,6 +192,14 @@ module ToARFF
 			end
 		end
 
+	def stringify_all_keys(hash)
+	  stringified_hash = {}
+	  hash.each do |k, v|
+	    stringified_hash[k.to_s] = v.is_a?(Hash) ? stringify_all_keys(v) : v
+	  end
+	  stringified_hash
+	end
+
 		def convert(options={})
 			temp_tables = options.fetch(:tables, Array.new)
 			temp_columns = options.fetch(:columns, Hash.new)
@@ -205,7 +214,7 @@ module ToARFF
 				if valid_option_given(options)
 					raise ArgumentError.new("Wrong parameter name \":#{options.keys.first}\"")
 				else
-					deal_with_valid_option(temp_tables, temp_columns, temp_column_types, res)
+					deal_with_valid_option(temp_tables, stringify_all_keys(temp_columns), stringify_all_keys(temp_column_types), res)
 				end
 			elsif param_count > 1
 				raise ArgumentError.new("You can specify only one out of the three parameters: table, columns, column_types.")

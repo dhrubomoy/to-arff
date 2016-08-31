@@ -155,17 +155,24 @@ describe ToARFF::SQLiteDB do
 		end
 		context "convert() with parameter :columns" do
 			it "should convert given columns of given tables to ARFFs." do
-				param1 = { "albums"=>["AlbumId", "Title"],
+				param1_hash = { "albums"=>["AlbumId", "Title"],
 									 "employees"=>["EmployeeId", "LastName", "City"]
 								 }
-				param2 = { "albums"=>["AlbumId", "Title"] }
-				expect(@sdb2.convert(:columns => param1).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param1
-				expect(@sdb2.convert(:columns => param2).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param2
+				param1_json = {
+												"albums": ["AlbumId", "Title"],
+												"employees": ["EmployeeId", "LastName", "City"]
+											}
+				param2_hash = { "albums"=>["AlbumId", "Title"] }
+				param2_json = { "albums": ["AlbumId", "Title"] }
+				expect(@sdb2.convert(:columns => param1_hash).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param1
+				expect(@sdb2.convert(:columns => param2_hash).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param2
+				expect(@sdb2.convert(:columns => param1_json).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param1
+				expect(@sdb2.convert(:columns => param2_json).gsub(/[\n\t ]/,"")).to eql @expected_arff_columns_sdb2_param2
 			end
 		end
 		context "convert() with parameter :column_types" do
 			it "should convert given columns of given tables to ARFFs with given column/attribute types." do
-				param1 = { "albums" => { "Albumid"=>"NUMERIC",
+				param1_hash = { "albums" => { "Albumid"=>"NUMERIC",
 																 "Title"=>"STRING" },
 									 "employees" => { "EmployeeId"=>"NUMERIC",
 									 									"LastName"=>"STRING",
@@ -173,7 +180,20 @@ describe ToARFF::SQLiteDB do
 									 									"HireDate"=>"DATE 'yyyy-MM-dd HH:mm:ss'"
 									 								}
 								 }
-				expect(@sdb2.convert(:column_types => param1).gsub(/[\n\t ]/,"")).to eql @expected_arff_column_types_sdb2_param1
+				param1_json = {
+												"albums": {
+													"Albumid": "NUMERIC",
+													"Title": "STRING"
+												},
+												"employees": {
+													"EmployeeId": "NUMERIC",
+													"LastName": "STRING",
+													"City": "STRING",
+													"HireDate": "DATE 'yyyy-MM-dd HH:mm:ss'"
+												}
+											}
+				expect(@sdb2.convert(:column_types => param1_hash).gsub(/[\n\t ]/,"")).to eql @expected_arff_column_types_sdb2_param1
+				expect(@sdb2.convert(:column_types => param1_json).gsub(/[\n\t ]/,"")).to eql @expected_arff_column_types_sdb2_param1
 			end
 		end
 		context "convert() with invalid :tables" do 
@@ -203,7 +223,6 @@ describe ToARFF::SQLiteDB do
 									 									"HireDate"=>"DATE 'yyyy-MM-dd HH:mm:ss'"
 									 								}
 								 }
-				# @sdb2.convert(:column_types => param1)
 				expect{ @sdb2.convert(:column_types => param1) }.to raise_error(ArgumentError, "\"albumicd\" does not exist.")
 			end
 		end
