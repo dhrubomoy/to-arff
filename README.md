@@ -45,11 +45,11 @@ Or install it yourself as:
 
 ###Convert from an SQLite Database
 #### By Specifying Column Types (Recommended)
-Its better to specify column types.
+Use the convert() method and specify the column/attribute types as a json (or nested hash).
 ```ruby
 require 'to-arff'
-# You can download the file from  '/spec /sample_db_files/sample2.db'
-sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
+# Get the db file from https://github.com/dhrubomoy/to-arff/blob/master/spec/sample_db_files/sample2.db
+sample = ToARFF::SQLiteDB.new "/path/to/sample2.db"
 # Attribute names and types must be valid
 # eg. { "table1" => {"column11"=>"NUMERIC",
 #                    "column12"=>"STRING"
@@ -57,18 +57,40 @@ sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
 #       "table2" => {"column21"=>"class {Iris-setosa,Iris-versicolor,Iris-virginica}",
 #                    "column22"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
 #                   }
-sample_column_types_param = { "employees" => {"EmployeeId"=>"NUMERIC",
+#     }
+# OR  { "table1" => {"column11"=>"NUMERIC",
+#                    "column12"=>"STRING"
+#                   },
+#       "table2" => {"column21"=>"class {Iris-setosa,Iris-versicolor,Iris-virginica}",
+#                    "column22"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
+#                   }
+#     }
+sample_column_types_param_json = {
+                                    "albums": {
+                                      "Albumid": "NUMERIC",
+                                      "Title": "STRING"
+                                    },
+                                    "employees": {
+                                      "EmployeeId": "NUMERIC",
+                                      "LastName": "STRING",
+                                      "City": "STRING",
+                                      "HireDate": "DATE 'yyyy-MM-dd HH:mm:ss'"
+                                    }
+                                  }
+sample_column_types_param_hash = { "employees" => {"EmployeeId"=>"NUMERIC",
                                               "LastName"=>"STRING",
                                               "City"=>"STRING",
                                               "HireDate"=>"DATE \"yyyy-MM-dd HH:mm:ss\""
                                              },
-                              "albums" => { "Albumid"=>"NUMERIC",
-                                            "Title"=>"STRING"
-                                          }
-                            }
-puts sample.convert column_types: sample_column_types_param
+                                    "albums" => { "Albumid"=>"NUMERIC",
+                                                  "Title"=>"STRING"
+                                                }
+                                  }
+puts sample.convert column_types: sample_column_types_param_json
+#OR
+puts sample.convert column_types: sample_column_types_param_hash
 ```
-We will get something similar to following:
+Both will produce string similar to following:
 ```
 @RELATION employees
 
@@ -103,12 +125,20 @@ sample = ToARFF::SQLiteDB.new "/path/to/sample_sqlite.db"
 # { "table1" => ["column11", "column12",...],
 #   "table2" => ["column21", "column22",...]
 # }
-sample_columns =  { "albums" => ["AlbumId", "Title", "ArtistId"],
-                    "employees" => ["EmployeeId", "LastName", "FirstName", "Title"]
-                  }
-puts sample.convert columns: sample_columns
+# OR
+# { "table1": ["column11", "column12",...],
+#   "table2": ["column21", "column22",...]
+# }
+sample_columns_json = { "albums": ["AlbumId", "Title", "ArtistId"],
+                         "employees": ["EmployeeId", "LastName", "FirstName", "Title"]
+                       }
+sample_columns_hash =  { "albums" => ["AlbumId", "Title", "ArtistId"],
+                         "employees" => ["EmployeeId", "LastName", "FirstName", "Title"]
+                       }
+puts sample.convert columns: sample_columns_json
+puts sample.convert columns: sample_columns_hash
 ```
-We will get something similar:
+Both json and hash parameters for `columns:` will return string similar to following:
 ```
 @RELATION albums
 
