@@ -6,6 +6,7 @@
 [![Gem Version](https://badge.fury.io/rb/to-arff.svg)](https://badge.fury.io/rb/to-arff)
 [![Dependency Status](https://gemnasium.com/badges/github.com/dhrubomoy/to-arff.svg)](https://gemnasium.com/github.com/dhrubomoy/to-arff)
 [![Code Climate](https://codeclimate.com/github/dhrubomoy/to-arff/badges/gpa.svg)](https://codeclimate.com/github/dhrubomoy/to-arff)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dhrubomoy/to-arff/blob/master/LICENSE.txt)
 
 ##Table of Content
 - [About](#about)
