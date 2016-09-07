@@ -67,15 +67,15 @@ sample = ToARFF::SQLiteDB.new "/path/to/sample2.db"
 #                   }
 #     }
 sample_column_types_param_json = {
-                                    "albums": {
-                                      "Albumid": "NUMERIC",
-                                      "Title": "STRING"
-                                    },
                                     "employees": {
                                       "EmployeeId": "NUMERIC",
                                       "LastName": "STRING",
                                       "City": "STRING",
-                                      "HireDate": "DATE 'yyyy-MM-dd HH:mm:ss'"
+                                      "HireDate": "DATE \"yyyy-MM-dd HH:mm:ss\""
+                                    },
+                                    "albums": {
+                                      "Albumid": "NUMERIC",
+                                      "Title": "STRING"
                                     }
                                   }
 sample_column_types_param_hash = { "employees" => {"EmployeeId"=>"NUMERIC",
