@@ -8,7 +8,7 @@
 [![Code Climate](https://codeclimate.com/github/dhrubomoy/to-arff/badges/gpa.svg)](https://codeclimate.com/github/dhrubomoy/to-arff)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/dhrubomoy/to-arff/blob/master/LICENSE.txt)
 
-##Table of Content
+## Table of Content
 - [About](#about)
   - [What is an ARFF File](#what-is-an-arff-file)
 - [Installation](#installation)
